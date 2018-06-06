@@ -67,15 +67,10 @@ public class BlankFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
-        view.findViewById(R.id.button).setOnClickListener(this);
+        view.findViewById(R.id.fragment_main_button_happy).setOnClickListener(this);
+        view.findViewById(R.id.fragment_main_button_sad).setOnClickListener(this);
+        view.findViewById(R.id.fragment_main_button_horrible).setOnClickListener(this);
         return view;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -98,7 +93,7 @@ public class BlankFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(null);
+            mListener.onButtonClicked(v);
         }
     }
 
@@ -114,6 +109,6 @@ public class BlankFragment extends Fragment implements View.OnClickListener {
      */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onButtonClicked(View view);
     }
 }

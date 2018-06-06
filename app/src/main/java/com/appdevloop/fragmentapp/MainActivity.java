@@ -5,11 +5,12 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.appdevloop.fragmentapp.fragments.BlankFragment;
 import com.appdevloop.fragmentapp.fragments.DetailFragment;
 
-public class MainActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener, DetailFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements BlankFragment.OnFragmentInteractionListener {
 
     private BlankFragment blankFragment;
     private DetailFragment detailFragment;
@@ -23,13 +24,6 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
         this.configureAndShowMainFragment();
         // 2 - Configure and show detail fragment
         this.configureAndShowDetailFragment();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.i("MainActivity", "onFragmentInteraction: ");
-        Intent intent = new Intent(MainActivity.this, DetailActivity.class);
-        startActivity(intent);
     }
 
     private void configureAndShowMainFragment(){
@@ -55,6 +49,23 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_detail, detailFragment)
                     .commit();
+        }
+    }
+
+    @Override
+    public void onButtonClicked(View view) {
+        // 1 - Retrieve button tag
+        int buttonTag = Integer.parseInt(view.getTag().toString());
+
+        // 2 - Check if DetailFragment is visible (Tablet)
+        if (detailFragment != null && detailFragment.isVisible()) {
+            // 2.1 - TABLET : Update directly TextView
+            detailFragment.updateTextView(buttonTag);
+        } else {
+            // 2.2 - SMARTPHONE : Pass tag to the new intent that will show DetailActivity (and so DetailFragment)
+            Intent i = new Intent(this, DetailActivity.class);
+            i.putExtra(DetailActivity.EXTRA_BUTTON_TAG, buttonTag);
+            startActivity(i);
         }
     }
 }

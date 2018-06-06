@@ -7,8 +7,10 @@ import android.os.Bundle;
 import com.appdevloop.fragmentapp.fragments.BlankFragment;
 import com.appdevloop.fragmentapp.fragments.DetailFragment;
 
-public class DetailActivity extends AppCompatActivity implements DetailFragment.OnFragmentInteractionListener{
+public class DetailActivity extends AppCompatActivity {
 
+    // 1 - Create static variable to identify Intent
+    public static final String EXTRA_BUTTON_TAG = "EXTRA_BUTTON_TAG";
     private DetailFragment detailFragment;
 
     @Override
@@ -17,11 +19,6 @@ public class DetailActivity extends AppCompatActivity implements DetailFragment.
         setContentView(R.layout.activity_detail);
 
         this.configureAndShowMainFragment();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     private void configureAndShowMainFragment(){
@@ -36,5 +33,24 @@ public class DetailActivity extends AppCompatActivity implements DetailFragment.
                     .add(R.id.frame_layout_detail, detailFragment)
                     .commit();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // 3 - Call update method here because we are sure that DetailFragment is visible
+        this.updateDetailFragmentTextViewWithIntentTag();
+    }
+
+    // --------------
+    // UPDATE UI
+    // --------------
+
+    // 2 - Update DetailFragment with tag passed from Intent
+    private void updateDetailFragmentTextViewWithIntentTag(){
+        // Get button's tag from intent
+        int buttonTag = getIntent().getIntExtra(EXTRA_BUTTON_TAG, 0);
+        // Update DetailFragment's TextView
+        detailFragment.updateTextView(buttonTag);
     }
 }

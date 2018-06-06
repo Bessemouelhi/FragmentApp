@@ -3,17 +3,22 @@ package com.appdevloop.fragmentapp.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.appdevloop.fragmentapp.R;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link DetailFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
  * Use the {@link DetailFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -24,11 +29,17 @@ public class DetailFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    // 1 - Declare a buttonTag tracking
+    private int buttonTag;
+    // 2 - Create static variable to identify key in Bundle
+    private static final String KEY_BUTTONTAG = "DetailFragment.KEY_BUTTONTAG";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+    // 1 - Declare TextView
+    private TextView textView;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -64,46 +75,54 @@ public class DetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false);
+        View view = inflater.inflate(R.layout.fragment_detail, container, false);
+        // 2 - Get textView from layout (don't forget to create ID in fragment_detail.xml)
+        this.textView = (TextView) view.findViewById(R.id.fragment_detail_text_view);
+        return(view);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // 5 - Restore last buttonTag if possible
+        if (savedInstanceState != null) {
+            int buttonTagRestored = savedInstanceState.getInt(KEY_BUTTONTAG, 0);
+            // 6 - Update TextView
+            this.updateTextView(buttonTagRestored);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // 4 - Save buttonTag in Bundle when fragment is destroyed
+        outState.putInt(KEY_BUTTONTAG, buttonTag);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                                               + " must implement OnFragmentInteractionListener");
+
+    }
+
+    // 3 - Update TextView depending on TAG's button
+    public void updateTextView(int tag){
+        Log.i("DetailFragment", "updateTextView: " + tag);
+        // 3 - Save tag in ButtonTag variable
+        this.buttonTag = tag;
+        switch (tag){
+            case 10:
+                this.textView.setText("You're a very good programmer !");
+                break;
+            case 20:
+                this.textView.setText("I do believe that Jon Snow is going to die in next season...");
+                break;
+            case 30:
+                this.textView.setText("Maybe Game of Thrones next season will get back in 2040 ?");
+                break;
+            default:
+                break;
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }

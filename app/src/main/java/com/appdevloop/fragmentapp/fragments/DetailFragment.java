@@ -14,6 +14,9 @@ import android.widget.TextView;
 
 import com.appdevloop.fragmentapp.R;
 
+import icepick.Icepick;
+import icepick.State;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -30,7 +33,7 @@ public class DetailFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     // 1 - Declare a buttonTag tracking
-    private int buttonTag;
+    @State int buttonTag;
     // 2 - Create static variable to identify key in Bundle
     private static final String KEY_BUTTONTAG = "DetailFragment.KEY_BUTTONTAG";
 
@@ -84,19 +87,18 @@ public class DetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // 5 - Restore last buttonTag if possible
-        if (savedInstanceState != null) {
-            int buttonTagRestored = savedInstanceState.getInt(KEY_BUTTONTAG, 0);
-            // 6 - Update TextView
-            this.updateTextView(buttonTagRestored);
-        }
+        // Restore last buttonTag if possible
+        // Restore all @State annotation variables in Bundle
+        Icepick.restoreInstanceState(this, savedInstanceState);
+        this.updateTextView(this.buttonTag);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        // 4 - Save buttonTag in Bundle when fragment is destroyed
-        outState.putInt(KEY_BUTTONTAG, buttonTag);
+        //  Save buttonTag in Bundle when fragment is destroyed
+        //  Save all @State annotation variables in Bundle
+        Icepick.saveInstanceState(this, outState);
     }
 
     @Override

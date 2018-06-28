@@ -1,12 +1,11 @@
-package com.appdevloop.fragmentapp;
+package com.appdevloop.fragmentapp.Controllers;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
+import com.appdevloop.fragmentapp.R;
 import com.appdevloop.fragmentapp.fragments.BlankFragment;
 import com.appdevloop.fragmentapp.fragments.DetailFragment;
 

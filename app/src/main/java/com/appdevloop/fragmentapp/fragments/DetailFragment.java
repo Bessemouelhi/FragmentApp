@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.appdevloop.fragmentapp.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import icepick.Icepick;
 import icepick.State;
 
@@ -41,8 +43,8 @@ public class DetailFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    // 1 - Declare TextView
-    private TextView textView;
+    // 1 - Adding @BindView in order to indicate to ButterKnife to get & serialise it
+    @BindView(R.id.fragment_detail_text_view) TextView textView;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -79,8 +81,9 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        // 2 - Get textView from layout (don't forget to create ID in fragment_detail.xml)
-        this.textView = (TextView) view.findViewById(R.id.fragment_detail_text_view);
+        //  Get textView from layout (don't forget to create ID in fragment_detail.xml)
+        //  Telling ButterKnife to bind all views in layout
+        ButterKnife.bind(this, view);
         return(view);
     }
 

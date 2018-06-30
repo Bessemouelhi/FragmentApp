@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
 
         // 2 - Configure and show home fragment
         this.configureAndShowMainFragment();
-        // 2 - Configure and show detail fragment
+        //  Configure and show detail fragment
         this.configureAndShowDetailFragment();
 
         this.configureToolbar();
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements BlankFragment.OnF
 
     private void configureToolbar(){
         // Get the toolbar view inside the activity layout
-        Toolbar toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // Sets the Toolbar
         setSupportActionBar(toolbar);
     }

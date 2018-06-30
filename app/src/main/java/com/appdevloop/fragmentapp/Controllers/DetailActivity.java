@@ -1,8 +1,10 @@
 package com.appdevloop.fragmentapp.Controllers;
 
 import android.net.Uri;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 import com.appdevloop.fragmentapp.R;
 import com.appdevloop.fragmentapp.fragments.BlankFragment;
@@ -20,6 +22,8 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         this.configureAndShowMainFragment();
+
+        this.configureToolbar();
     }
 
     private void configureAndShowMainFragment(){
@@ -53,5 +57,16 @@ public class DetailActivity extends AppCompatActivity {
         int buttonTag = getIntent().getIntExtra(EXTRA_BUTTON_TAG, 0);
         // Update DetailFragment's TextView
         detailFragment.updateTextView(buttonTag);
+    }
+
+    private void configureToolbar(){
+        //Get the toolbar (Serialise)
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Set the toolbar
+        setSupportActionBar(toolbar);
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
     }
 }
